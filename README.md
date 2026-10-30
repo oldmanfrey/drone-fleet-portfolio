@@ -2,9 +2,7 @@
 
 
 
-"# drone-fleet-portfolio"
-
-Autonomous \& FPV UAV Fleet Management Portfolio
+\# Autonomous \& FPV UAV Fleet Management Portfolio
 
 
 
