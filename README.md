@@ -1,6 +1,10 @@
+\[!\[Fleet CI Status](https://github.com)](https://github.com)
+
+
+
 "# drone-fleet-portfolio"
 
-# Autonomous \& FPV UAV Fleet Management Portfolio
+Autonomous \& FPV UAV Fleet Management Portfolio
 
 
 
@@ -22,5 +26,5 @@ This repository serves as a professional configuration tracking, hardware manage
 
 \*   \*\*Automated Hardware CI/CD:\*\* Integrated GitHub Actions pipeline validating configuration integrity, syntax consistency, and manifest requirements on every push.
 
-\*   \*\*Asset Traceability:\*\* Isolated tracking of CLI dumps, system component variations, and quantitative pilot change logs.
+\*   \*\*Asset Traceability:\*\* Isolated tracking of CLI dumps, system component variations, and quantitative pilot change logs.       	=
 
