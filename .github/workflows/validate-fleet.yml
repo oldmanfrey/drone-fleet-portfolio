@@ -1,0 +1,53 @@
+name: Fleet Hardware & Configuration CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate-fleet:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    - name: Validate Fleet Directory Structure
+      run: |
+        echo "Verifying mandatory directories exist for the drone fleet..."
+        TARGET_UNITS=("galaxy-75-pro" "fpv-4inch-alpha" "fpv-5inch-beta" "utility-450-frame")
+        
+        for unit in "${TARGET_UNITS[@]}"; do
+          if [ ! -d "units/$unit/docs" ] || [ ! -d "units/$unit/config" ]; then
+            echo "❌ Error: Missing 'docs' or 'config' directory for unit: $unit"
+            exit 1
+          fi
+        done
+        echo "✅ All 4 drone directories verified successfully."
+
+    - name: Lint and Sanity Check Configuration Dumps
+      run: |
+        echo "Scanning flight controller CLI configuration sheets for invalid commands..."
+        if grep -r "Invalid command" units/*/config/; then
+          echo "❌ Error: Found corrupted command references or copy-paste logs in a configuration text dump."
+          exit 1
+        fi
+        echo "✅ Flight controller configurations passed baseline structural verification."
+
+    - name: Verify Documentation Completeness
+      run: |
+        echo "Ensuring Hardware Manifest docs contain standard aerospace sections..."
+        MANDATORY_HEADERS=("### Flight Stack" "### Power System" "### Propulsion")
+        
+        for manifest in units/*/docs/*.md; do
+          echo "Checking manifest: $manifest"
+          for header in "${MANDATORY_HEADERS[@]}"; do
+            if ! grep -q "$header" "$manifest"; then
+              echo "❌ Error: Manifest $manifest is missing the required section: '$header'"
+              exit 1
+            fi
+          done
+        done
+        echo "✅ All hardware documentation structures match organizational standards."
